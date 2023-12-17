@@ -1,0 +1,23 @@
+TODOS:
+
+create a form for user to create products
+    name
+    description
+    image
+    price
+    quantity
+    visibility
+
+
+create a form for users to create a post for forums
+    topic (some characters)
+    maybe integrate text editor (dangerous) / textarea
+    tags
+    visibility
+
+
+create a form for adding comments
+    text
+    mentioning argonomists
+
+
