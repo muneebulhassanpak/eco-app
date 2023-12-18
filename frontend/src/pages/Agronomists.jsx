@@ -1,7 +1,7 @@
 import React from "react";
 
 const Agronomists = () => {
-  return <div>Agronomists</div>;
+  return <section>Agronomists</section>;
 };
 
 export default Agronomists;

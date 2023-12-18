@@ -6,7 +6,7 @@ const CustomError = require("../ErrorHandling/Error");
 //Express validator validationResult is used to get any errors if there were any in previous steps
 const { validationResult } = require("express-validator");
 
-exports.getAllTopicsController = async (req, res) => {
+exports.getAllTopicsController = async (req, res, next) => {
   try {
     const topics = await ForumTopic.find({ privacy: "public" });
     res.status(200).json({ success: true, topics });
@@ -15,7 +15,7 @@ exports.getAllTopicsController = async (req, res) => {
   }
 };
 
-exports.getIndividualTopicController = async (req, res) => {
+exports.getIndividualTopicController = async (req, res, next) => {
   const errors = validationResult(req);
 
   try {
@@ -93,7 +93,7 @@ exports.createTopicController = async (req, res, next) => {
 };
 
 // Edit an existing forum topic
-exports.editTopicController = async (req, res) => {
+exports.editTopicController = async (req, res, next) => {
   const errors = validationResult(req);
   try {
     if (!errors.isEmpty()) {
@@ -128,7 +128,7 @@ exports.editTopicController = async (req, res) => {
 };
 
 // Delete a forum topic
-exports.deleteTopicController = async (req, res) => {
+exports.deleteTopicController = async (req, res, next) => {
   const errors = validationResult(req);
   try {
     if (!errors.isEmpty()) {
@@ -241,5 +241,40 @@ exports.createAComment = async (req, res, next) => {
     res.status(201).json({ success: true, comment: newComment });
   } catch (error) {
     return next(error);
+  }
+};
+
+//Get query results
+exports.getResultsForQuery = async (req, res, next) => {
+  const errors = validationResult(req);
+
+  try {
+    if (!errors.isEmpty()) {
+      throw new CustomError(400, "Invalid Query");
+    }
+    const { query } = req.params;
+    // Validate if the query is present
+    if (!query) {
+      throw new CustomError(400, "Query is required");
+    }
+
+    // Fetch all ForumTopics
+    const allTopics = await ForumTopic.find();
+
+    // Split the query into words
+    const keywords = query.split(" ");
+
+    // Filter topics based on keyword presence in titles
+    const matchingTopics = allTopics.filter((topic) => {
+      const titleWords = topic.title.split(" ");
+      return keywords.some((keyword) => titleWords.includes(keyword));
+    });
+
+    return res.status(200).json({
+      success: true,
+      matchingTopics: matchingTopics || [],
+    });
+  } catch (err) {
+    return next(err);
   }
 };

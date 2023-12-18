@@ -47,7 +47,7 @@ const ProductDetailPage = () => {
   }, [id]);
 
   return (
-    <>
+    <section>
       <div className="max-w-6xl mx-auto mt-8">
         {loading ? (
           <p>Loading...</p>
@@ -80,7 +80,7 @@ const ProductDetailPage = () => {
         )}
       </div>
       <ToastContainer />
-    </>
+    </section>
   );
 };
 

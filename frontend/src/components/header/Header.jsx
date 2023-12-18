@@ -23,6 +23,7 @@ import Cookies from "js-cookie";
 const Header = () => {
   const [activateSignup, setActivateSignup] = useState(false);
   const [activateLogin, setActivateLogin] = useState(false);
+  const [menu, setMenu] = useState(false);
 
   const isLoggedIn = useSelector((store) => store?.user?.isLoggedIn);
 
@@ -44,7 +45,7 @@ const Header = () => {
   return (
     <>
       <motion.header
-        className="bg-darkGreen text-white py-4"
+        className={`bg-darkGreen text-white p-4 md:p-0`}
         initial={{
           top: "-100vh",
           opacity: 0,
@@ -67,56 +68,65 @@ const Header = () => {
           </div>
 
           {/* Navigation Links */}
-          <nav className="w-2/4 flex flex-col absolute right-0 top-14 h-[calc(100vh-3.6rem)] md:h-auto bg-darkGreen text-black md:text-white md:flex-row md:bg-transparent md:static space-y-8 md:space-x-4 md:space-y-0 justify-center md:justify-center items-center z-50">
-            <Link text="Forum" link="/forum" />
-            <Link text="EcoShop" link="/ecoshop" />
-            {isLoggedIn ? (
-              <>
-                <Link text="Dashboard" link="/dashboard/forum" />
-              </>
-            ) : (
-              <>
-                <Link text="Agronomists" link="/agronomists" />
-              </>
-            )}
-          </nav>
-          <div className="w-1/4 flex justify-end items-center gap-4">
-            {isLoggedIn ? (
-              <div className="flex items-center">
-                <Button
-                  text="Logout"
-                  style="brownFilled"
-                  onClick={logoutHandler}
-                />
-              </div>
-            ) : (
-              <div className="flex gap-3">
-                <Button
-                  text="Login"
-                  style="filled"
-                  onClick={() => {
-                    setActivateLogin(true);
-                  }}
-                />
-                <Button
-                  text="Signup"
-                  style="normal"
-                  onClick={() => {
-                    setActivateSignup(true);
-                  }}
-                />
-              </div>
-            )}
-          </div>
-          <IoMenu className="block md:hidden text-3xl cursor-pointer" />
+          <nav
+            className={`flex flex-col absolute ${
+              menu ? "top-19 -left-0" : "top-[-100%] left-0"
+            } top-14 h-[90vh] transition-all duration-100 md:h-auto bg-darkGreen text-black md:text-white md:flex-row md:bg-transparent md:static space-y-8 md:space-x-4 md:space-y-0 justify-center  items-center z-50 w-full md:w-3/4 md:py-4`}
+          >
+            <div className="w-2/3 flex flex-col md:flex-row justify-center items-center gap-8">
+              <Link text="Forum" link="/forum" />
+              <Link text="EcoShop" link="/ecoshop" />
+              {isLoggedIn ? (
+                <>
+                  <Link text="Dashboard" link="/dashboard/forum" />
+                </>
+              ) : (
+                <>
+                  <Link text="Agronomists" link="/agronomists" />
+                </>
+              )}
+            </div>
 
-          {/* <div className="flex items-center">
-          <input
-            type="text"
-            placeholder="Search"
-            className="bg-lightSoil text-white placeholder:italic placeholder:text-white px-2 py-1 rounded-full border border-white focus:border focus:border-white"
+            <div className="w-1/3 flex flex-col md:flex-row justify-end items-center gap-4">
+              {isLoggedIn ? (
+                <div className="flex items-center">
+                  <Button
+                    text="Logout"
+                    style="brownFilled"
+                    onClick={() => {
+                      logoutHandler();
+                      setMenu(false);
+                    }}
+                  />
+                </div>
+              ) : (
+                <div className="flex gap-3 flex-col justify-center md:flex-row">
+                  <Button
+                    text="Login"
+                    style="filled"
+                    onClick={() => {
+                      setActivateLogin(true);
+                      setMenu(false); // Close the menu
+                    }}
+                  />
+                  <Button
+                    text="Signup"
+                    style="normal"
+                    onClick={() => {
+                      setActivateSignup(true);
+                      setMenu(false); // Close the menu
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+          </nav>
+          <IoMenu
+            className="block md:hidden text-3xl cursor-pointer"
+            onClick={() => {
+              setMenu((prev) => !prev);
+            }}
           />
-        </div> */}
         </div>
       </motion.header>
       {activateLogin && (

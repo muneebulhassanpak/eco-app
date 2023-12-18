@@ -36,8 +36,16 @@ router.post(
   "/createProduct",
   adminVerification,
   [
-    body("name").notEmpty().withMessage("Name is required"),
-    body("description").notEmpty().withMessage("Description is required"),
+    body("name")
+      .notEmpty()
+      .withMessage("Name is required")
+      .matches(/^[a-zA-Z0-9\s]+$/)
+      .withMessage("Name must contain only alphabets and numbers"),
+    body("description")
+      .notEmpty()
+      .withMessage("Description is required")
+      .matches(/^[a-zA-Z0-9\s]+$/)
+      .withMessage("Description must contain only alphabets and numbers"),
     body("image").notEmpty().withMessage("Image is required"),
     body("price")
       .notEmpty()
@@ -84,8 +92,16 @@ router.patch(
       .withMessage("Product ID is required")
       .isMongoId()
       .withMessage("Invalid Product ID"),
-    body("name").notEmpty().withMessage("Name is required"),
-    body("description").notEmpty().withMessage("Description is required"),
+    body("name")
+      .notEmpty()
+      .withMessage("Name is required")
+      .matches(/^[a-zA-Z0-9\s]+$/)
+      .withMessage("Name must contain only alphabets and numbers"),
+    body("description")
+      .notEmpty()
+      .withMessage("Description is required")
+      .matches(/^[a-zA-Z0-9\s]+$/)
+      .withMessage("Description must contain only alphabets and numbers"),
     body("image").notEmpty().withMessage("Image is required"),
     body("price")
       .notEmpty()

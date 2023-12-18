@@ -77,7 +77,7 @@ const EcoShop = () => {
   }, []);
 
   return (
-    <>
+    <section>
       <section className="p-4">
         {role == "admin" && (
           <div className="text-right mb-2 md:pr-3">
@@ -132,7 +132,7 @@ const EcoShop = () => {
           </Modal>
         </Overlay>
       )}
-    </>
+    </section>
   );
 };
 

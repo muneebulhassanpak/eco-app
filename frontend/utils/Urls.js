@@ -18,6 +18,8 @@ const baseForumUrl = `${baseURL}/forum`;
 export const createTopic = `${baseForumUrl}/create`;
 //Fetcing all topics to show on forum page
 export const getAllTopics = `${baseForumUrl}/get`;
+//Fetcing  topicsas per query
+export const getSomeTopics = (query) => `${baseForumUrl}/getResults/${query}`;
 //Editing a topic (creator only)
 export const editTopic = (id) => `${baseForumUrl}/edit/${id}`;
 //Editing a topic (creator only/all)

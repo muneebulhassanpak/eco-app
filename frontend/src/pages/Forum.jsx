@@ -56,7 +56,7 @@ const Forum = () => {
   }, [dispatch]);
 
   return (
-    <>
+    <section>
       <section className="max-w-6xl mx-auto px-1 relative">
         <div className="flex flex-col sm:flex-row items-center">
           <div className="w-full sm:flex-1">
@@ -101,7 +101,7 @@ const Forum = () => {
           </Modal>
         </Overlay>
       )}
-    </>
+    </section>
   );
 };
 

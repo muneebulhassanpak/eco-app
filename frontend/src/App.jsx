@@ -12,6 +12,7 @@ import DashboardWrapper from "./Wrappers/DashboardWrapper";
 import EcoShop from "./pages/EcoShop";
 import ForumDetailPage from "./pages/ForumDetailPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
+import ForumQueryPage from "./pages/ForumQueryPage";
 
 import Protected from "./pages/Protected";
 import { Login as loginAction } from "./store/userSlice";
@@ -67,7 +68,7 @@ const App = () => {
   }, [localToken]); // Run this effect whenever localToken changes
 
   return (
-    <>
+    <div>
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -84,11 +85,12 @@ const App = () => {
           <Route path="forum" index element={<Dashboard />} />
           <Route path="shop" element={<UserShop />} />
         </Route>
+        <Route path="/forum/query/:query" element={<ForumQueryPage />} />
         <Route path="/forum" element={<Forum />} />
         <Route path="/forum/:id" element={<ForumDetailPage />} />
         <Route path="/agronomists" element={<Agronomists />} />
       </Routes>
-    </>
+    </div>
   );
 };
 

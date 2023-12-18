@@ -58,12 +58,12 @@ const ForumDetailPage = () => {
   }, [id]);
 
   return (
-    <>
+    <section>
       <div className="max-w-6xl mx-auto mt-8">
         {loading ? (
           <p>Loading...</p>
         ) : post ? (
-          <div className="max-w-lg mx-auto">
+          <div className="max-w-lg mx-auto px-4">
             <h1 className="text-center text-3xl md:text-5xl my-2">
               {post.title}
             </h1>
@@ -101,7 +101,7 @@ const ForumDetailPage = () => {
         )}
       </div>
       <ToastContainer />
-    </>
+    </section>
   );
 };
 

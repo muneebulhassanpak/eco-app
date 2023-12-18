@@ -12,6 +12,7 @@ const {
   getIndividualTopicController,
   getTopicsOfAnIndividualController,
   createAComment,
+  getResultsForQuery,
 } = require("../controllers/forum-controller");
 const verify = require("../utils/JWTVerification");
 
@@ -51,12 +52,18 @@ router.post(
       .notEmpty()
       .withMessage("Title is required")
       .isLength({ min: 5 })
-      .withMessage("Title must be at least 2 characters long"),
+      .withMessage("Title must be at least 5 characters long")
+      .matches(/^[a-zA-Z0-9\s]+$/)
+      .withMessage("Title must contain only alphabets, numbers, and spaces"),
     body("description")
       .notEmpty()
       .withMessage("Description is required")
       .isLength({ min: 11 })
-      .withMessage("Description must be at least 10 characters long"),
+      .withMessage("Description must be at least 11 characters long")
+      .matches(/^[a-zA-Z0-9\s]+$/)
+      .withMessage(
+        "Description must contain only alphabets, numbers, and spaces"
+      ),
     body("privacy")
       .notEmpty()
       .withMessage("Privacy is required")
@@ -74,12 +81,18 @@ router.patch(
       .notEmpty()
       .withMessage("Title is required")
       .isLength({ min: 2 })
-      .withMessage("Title must be at least 2 characters long"),
+      .withMessage("Title must be at least 2 characters long")
+      .matches(/^[a-zA-Z0-9\s]+$/)
+      .withMessage("Title must contain only alphabets, numbers, and spaces"),
     body("description")
       .notEmpty()
       .withMessage("Description is required")
       .isLength({ min: 10 })
-      .withMessage("Description must be at least 10 characters long"),
+      .withMessage("Description must be at least 10 characters long")
+      .matches(/^[a-zA-Z0-9\s]+$/)
+      .withMessage(
+        "Description must contain only alphabets, numbers, and spaces"
+      ),
     body("privacy")
       .notEmpty()
       .withMessage("Privacy is required")
@@ -114,10 +127,26 @@ router.post(
       .notEmpty()
       .withMessage("Message is required")
       .isLength({ min: 2 })
-      .withMessage("Title must be at least 2 characters long"),
+      .withMessage("Title must be at least 2 characters long")
+      .matches(/^[a-zA-Z0-9\s]+$/)
+      .withMessage(
+        "Description must contain only alphabets, numbers, and spaces"
+      ),
   ],
   verify,
   createAComment
+);
+
+router.get(
+  "/getResults/:query",
+  [
+    param("query")
+      .notEmpty()
+      .withMessage("Query is required")
+      .matches(/^[a-zA-Z0-9 ]+$/)
+      .withMessage("Invalid characters in the query"),
+  ],
+  getResultsForQuery
 );
 
 module.exports = router;

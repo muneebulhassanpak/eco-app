@@ -186,12 +186,12 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
+    <section>
       <h2 className="text-center text-3xl my-3 font-play">
         Your Articles on Platform
       </h2>
       {renderArticles()}
-    </div>
+    </section>
   );
 };
 
