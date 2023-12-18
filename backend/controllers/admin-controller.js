@@ -3,6 +3,11 @@ const User = require("../models/User");
 const ForumTopic = require("../models/ForumTopic");
 const CustomError = require("../ErrorHandling/Error");
 
+//Express validator validationResult is used to get any errors if there were any in previous steps
+const { validationResult } = require("express-validator");
+
+//Real code logic happens here----------------------------------
+
 //Get all products
 exports.getAllProducts = async (req, res, next) => {
   try {
@@ -20,6 +25,10 @@ exports.getAllProducts = async (req, res, next) => {
 //Get one product
 exports.getOneProduct = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      throw new CustomError(400, "Validation failed");
+    }
     const { productId } = req.params;
     // Fetch all products
     const allProducts = await Product.findById({ _id: productId });
@@ -37,11 +46,11 @@ exports.createProduct = async (req, res, next) => {
   const { userId } = req.user;
 
   try {
-    const { name, description, image, price, quantity, privacy } = req.body;
-
-    if (!name || !description || !image || !price || !quantity || !privacy) {
-      throw new CustomError(400, "Missing fields for product creation");
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      throw new CustomError(400, "Validation failed");
     }
+    const { name, description, image, price, quantity, privacy } = req.body;
 
     // Create a new product
     const newProduct = await Product.create({
@@ -74,8 +83,11 @@ exports.createProduct = async (req, res, next) => {
 // Delete Product Handler
 exports.deleteProductHandler = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      throw new CustomError(400, "Validation failed");
+    }
     const { productId } = req.params;
-    console.log("Delete handler hit", productId);
 
     // Check if the product exists
 
@@ -83,10 +95,7 @@ exports.deleteProductHandler = async (req, res, next) => {
     if (!existingProduct) {
       throw new CustomError(404, "Product not found");
     }
-    console.log(existingProduct);
     await Product.findByIdAndDelete(productId);
-
-    console.log("Product deleted successfully");
 
     return res.json({
       success: true,
@@ -100,12 +109,13 @@ exports.deleteProductHandler = async (req, res, next) => {
 //Edit Product handler
 exports.editProductHandler = async (req, res, next) => {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      throw new CustomError(400, "Validation failed");
+    }
+
     const { productId } = req.params;
     const { name, description, image, price, quantity, privacy } = req.body;
-
-    if (!name || !description || !image || !price || !quantity || !privacy) {
-      throw new CustomError(400, "Missing fields for product edit");
-    }
 
     // Check if the product exists
     const existingProduct = await Product.findById(productId);
@@ -121,7 +131,6 @@ exports.editProductHandler = async (req, res, next) => {
     existingProduct.price = price;
     existingProduct.quantity = quantity;
     existingProduct.privacy = privacy;
-
     const updatedProduct = await existingProduct.save();
 
     return res.json({
@@ -133,6 +142,7 @@ exports.editProductHandler = async (req, res, next) => {
   }
 };
 
+//Get All Forum Topics, hidden or revealed for Admin's use
 exports.getAllForumTopicsHandler = async (req, res, next) => {
   try {
     // Fetch all forum topics

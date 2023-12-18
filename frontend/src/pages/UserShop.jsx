@@ -33,7 +33,7 @@ const UserShop = () => {
   return (
     <>
       <section className="p-4 my-3">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center flex-wrap">
           {topics.map((topic) => {
             return (
               <ForumCard

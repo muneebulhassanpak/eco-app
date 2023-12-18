@@ -76,9 +76,9 @@ const EcoShop = () => {
 
   return (
     <>
-      <section className="p-4 ">
+      <section className="p-4">
         {role == "admin" && (
-          <div className="text-right mb-2">
+          <div className="text-right mb-2 md:pr-3">
             <Button
               text="Add Product"
               style="blackFilled"

@@ -130,11 +130,11 @@ const Dashboard = () => {
     } else if (usersArticles && usersArticles.length > 0) {
       return (
         <>
-          <div className="flex flex-col md:flex-row md:justify-between items-center p-2 lg:p-4">
+          <div className="flex flex-col md:flex-row md:justify-between flex-wrap items-center p-2 lg:p-4">
             {usersArticles.map((article) => (
               <div
                 key={article._id}
-                className="block sm:w-[calc(50%-1rem)] md:w-[calc(33%-1rem)] mb-1 rounded-md shadow-md hover:shadow-xl cursor-pointer p-3 border border-black"
+                className="block sm:w-[calc(50%-1rem)] md:w-[calc(33%-1rem)] mb-2 rounded-md shadow-md hover:shadow-xl cursor-pointer p-3 border border-black"
               >
                 <ForumCard
                   id={article._id}

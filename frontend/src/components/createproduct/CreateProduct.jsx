@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import InputField from "../shared/inputfield/InputField";
 import Button from "../shared/button/Button";
@@ -25,6 +25,22 @@ const CreateProduct = ({ onClick, sendBackNewProduct }) => {
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [selectedOption, setSelectedOption] = useState("Public");
+  const [formIsValid, setFormIsValid] = useState(false);
+
+  //Client side validation for form data
+  useEffect(() => {
+    setFormIsValid(
+      String(name).trim().length > 0 &&
+        String(description).trim().length > 0 &&
+        String(image).trim().length > 0 &&
+        String(price).trim().length > 0 &&
+        !isNaN(Number(price)) &&
+        Number(price) >= 1 &&
+        String(quantity).trim().length > 0 &&
+        !isNaN(Number(quantity)) &&
+        Number(quantity) >= 1
+    );
+  }, [name, description, image, price, quantity]);
 
   const productCreationFormHandler = async (e) => {
     e.preventDefault();
@@ -33,7 +49,7 @@ const CreateProduct = ({ onClick, sendBackNewProduct }) => {
       description,
       image,
       price,
-      quantity,
+      quantity: Math.round(Number(quantity)),
       privacy: selectedOption.toLowerCase(),
     };
     console.log(newProductData);
@@ -59,6 +75,7 @@ const CreateProduct = ({ onClick, sendBackNewProduct }) => {
     } catch (error) {
       errorNotification("Failed to fetch products");
     } finally {
+      onClick();
     }
   };
 
@@ -106,6 +123,7 @@ const CreateProduct = ({ onClick, sendBackNewProduct }) => {
             type="number"
             text="Product Price"
             name="Product Price"
+            min={1}
             placeholder="Enter your product price"
             onChange={(e) => {
               setPrice(e.target.value);
@@ -116,6 +134,7 @@ const CreateProduct = ({ onClick, sendBackNewProduct }) => {
             text="Product Quantity"
             placeholder="Quantity of stock"
             name="Product Quantity"
+            min={1}
             onChange={(e) => {
               setQuantity(e.target.value);
             }}
@@ -130,7 +149,12 @@ const CreateProduct = ({ onClick, sendBackNewProduct }) => {
             value={selectedOption}
           />
           <div className="text-center mt-2">
-            <Button text="Create Product" use="submit" style="brownFilled" />
+            <Button
+              text="Create Product"
+              use="submit"
+              style="brownFilled"
+              disabled={!formIsValid}
+            />
           </div>
         </form>
       </div>

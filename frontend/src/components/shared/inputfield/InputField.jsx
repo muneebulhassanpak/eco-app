@@ -1,6 +1,14 @@
 import React from "react";
 
-const InputField = ({ text, type, onChange, data, placeholder, value }) => {
+const InputField = ({
+  text,
+  type,
+  onChange,
+  data,
+  placeholder,
+  value,
+  min,
+}) => {
   if (type == "dropdown") {
     return (
       <div className="font-nun mb-2">
@@ -53,6 +61,7 @@ const InputField = ({ text, type, onChange, data, placeholder, value }) => {
         <input
           type={type}
           name={text}
+          min={min ? min : null}
           onChange={(e) => {
             onChange(e);
           }}

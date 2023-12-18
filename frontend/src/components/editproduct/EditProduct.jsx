@@ -37,13 +37,20 @@ const EditProduct = ({
   const [privacy, setPrivacy] = useState(initialPrivacy);
   const [formIsValid, setFormIsValid] = useState(false);
 
+  //Client side validation for form data
   useEffect(() => {
     setFormIsValid(
-      name.trim().length > 4 &&
-        description.trim().length > 10 &&
-        image.trim().length > 0
+      String(name).trim().length > 0 &&
+        String(description).trim().length > 0 &&
+        String(image).trim().length > 0 &&
+        String(price).trim().length > 0 &&
+        !isNaN(Number(price)) &&
+        Number(price) >= 1 &&
+        String(quantity).trim().length > 0 &&
+        !isNaN(Number(quantity)) &&
+        Number(quantity) >= 1
     );
-  }, [name, description, image]);
+  }, [name, description, image, price, quantity]);
 
   const productEditHandler = async (e) => {
     e.preventDefault();
@@ -52,6 +59,7 @@ const EditProduct = ({
       return;
     }
 
+    //Sanitization of users inputs
     const sanitizedName = DOMPurify.sanitize(name);
     const sanitizedDescription = DOMPurify.sanitize(description);
     const sanitizedPrice = DOMPurify.sanitize(price);
@@ -156,7 +164,12 @@ const EditProduct = ({
             }}
           />
           <div className="text-center">
-            <Button style="brownFilled" use="submit" text="Save Changes" />
+            <Button
+              style="brownFilled"
+              use="submit"
+              text="Save Changes"
+              disabled={!formIsValid}
+            />
           </div>
         </form>
       </div>
