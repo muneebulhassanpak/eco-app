@@ -51,7 +51,7 @@ const EditForumTopic = ({
       id,
       title: sanitizedTitle,
       description: sanitizedDescription,
-      privacy,
+      privacy: privacy.toLowerCase(),
     };
 
     let response = await fetch(editTopic(id), {

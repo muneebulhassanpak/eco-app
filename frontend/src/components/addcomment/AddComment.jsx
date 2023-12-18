@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import InputField from "../shared/inputfield/InputField";
 import { LuSend } from "react-icons/lu";
@@ -15,17 +15,22 @@ import { useSelector } from "react-redux";
 
 const AddComment = ({ id, addComment }) => {
   const [comment, setComment] = useState("");
+  const [formIsValid, setFormIsValid] = useState(false);
 
   //Checking if user is logged in, if logged in then allow to comment, else no
   const isUserLoggedIn = useSelector((store) => store?.user?.isLoggedIn);
 
+  useEffect(() => {
+    setFormIsValid(comment.trim().length >= 2 && isUserLoggedIn);
+  }, [comment, isUserLoggedIn]);
+  console.log(comment, isUserLoggedIn);
+
   const commentSubmitHandler = async (e) => {
     e.preventDefault();
-    if (!comment.trim().length > 0) {
-      errorNotification("No comment text provided");
-      return;
-    } else if (!isUserLoggedIn) {
-      errorNotification("Only logged in person can comment");
+    if (!formIsValid) {
+      errorNotification(
+        "Comment should be atleast 2 character or please login"
+      );
       return;
     }
     // Sanitize user inputs using DOMPurify
@@ -33,7 +38,6 @@ const AddComment = ({ id, addComment }) => {
     const dataObject = {
       message: sanitizedcomment,
     };
-    console.log(dataObject);
     let response = await fetch(createAComment(id), {
       method: "POST",
       headers,
@@ -61,6 +65,7 @@ const AddComment = ({ id, addComment }) => {
               <InputField
                 type="text"
                 text="Your message"
+                value={comment}
                 placeholder="Your thoughts about this subject"
                 onChange={(e) => {
                   setComment(e.target.value);
@@ -68,11 +73,7 @@ const AddComment = ({ id, addComment }) => {
                 className="w-full"
               />
             </div>
-            <button
-              type="submit"
-              className="ml-1 mb-3"
-              disabled={!comment.trim().length > 0 || !isUserLoggedIn}
-            >
+            <button type="submit" className="ml-1 mb-3" disabled={!formIsValid}>
               <LuSend className="text-xl" />
             </button>
           </div>

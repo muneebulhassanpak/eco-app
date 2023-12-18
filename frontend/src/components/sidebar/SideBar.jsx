@@ -31,7 +31,8 @@ const UploadPicture = ({ onClick }) => {
         reader.onload = (e) => {};
         reader.readAsDataURL(selectedImage);
       } else {
-        alert("Please choose an image less than 1MB in size.");
+        errorNotification("Please choose an image less than 1MB in size.");
+        setImage(null);
       }
     }
   };
@@ -39,15 +40,19 @@ const UploadPicture = ({ onClick }) => {
   const handleUpdateClick = async () => {
     if (image) {
       const formData = new FormData();
-      formData.set("file", image);
+      formData.append("file", image);
+      console.log(formData.get("file")); // Log the file in the FormData object
+
       try {
         const response = await fetch(updateProfilePicture, {
           method: "POST",
           credentials: "include",
           body: formData,
         });
+
         const data = await response.json();
         console.log(data);
+
         data.success
           ? successNotification("Profile Picture uploaded successfully") &&
             dispatch(UpdateUser(data.user))
@@ -56,7 +61,7 @@ const UploadPicture = ({ onClick }) => {
         console.error("Error:", error);
       }
     } else {
-      alert("Please choose an image before updating.");
+      errorNotification("Please choose to upload.");
     }
   };
 
@@ -162,6 +167,7 @@ const SideBar = () => {
           </Modal>
         </Overlay>
       )}
+      <ToastContainer />
     </>
   );
 };

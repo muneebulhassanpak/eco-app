@@ -48,7 +48,7 @@ const CreateForumTopic = ({ onClick, mode }) => {
     const dataObject = {
       title: sanitizedtitle,
       description: sanitizedDescription,
-      privacy,
+      privacy: privacy.toLowerCase(),
     };
     console.log(dataObject);
     let response = await fetch(createTopic, {

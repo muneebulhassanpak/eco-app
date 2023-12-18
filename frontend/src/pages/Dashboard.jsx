@@ -57,7 +57,6 @@ const Dashboard = () => {
         response = await response.json();
 
         if (response.success) {
-          successNotification("Successfully fetched");
           setUsersArticles(response.userTopics);
         } else {
           errorNotification(

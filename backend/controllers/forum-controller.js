@@ -3,6 +3,9 @@ const ForumTopic = require("../models/ForumTopic");
 const UserComment = require("../models/Comment");
 const CustomError = require("../ErrorHandling/Error");
 
+//Express validator validationResult is used to get any errors if there were any in previous steps
+const { validationResult } = require("express-validator");
+
 exports.getAllTopicsController = async (req, res) => {
   try {
     const topics = await ForumTopic.find({ privacy: "public" });
@@ -13,10 +16,14 @@ exports.getAllTopicsController = async (req, res) => {
 };
 
 exports.getIndividualTopicController = async (req, res) => {
-  const { id } = req.params;
-  const { userId, role } = req.user;
+  const errors = validationResult(req);
 
   try {
+    if (!errors.isEmpty()) {
+      throw new CustomError(400, "Invalid inputs");
+    }
+    const { id } = req.params;
+    const { userId, role } = req.user;
     const topic = await ForumTopic.findById(id);
 
     if (!topic) {
@@ -53,13 +60,13 @@ exports.getIndividualTopicController = async (req, res) => {
 };
 
 exports.createTopicController = async (req, res, next) => {
-  const { title, description, privacy } = req.body;
-  const { userId } = req.user;
-
+  const errors = validationResult(req);
   try {
-    if (!title || !description || !privacy) {
-      throw new CustomError(400, "Missing fields for post creation");
+    if (!errors.isEmpty()) {
+      throw new CustomError(400, "Invalid inputs");
     }
+    const { title, description, privacy } = req.body;
+    const { userId } = req.user;
 
     const user = await User.findById(userId);
 
@@ -87,11 +94,15 @@ exports.createTopicController = async (req, res, next) => {
 
 // Edit an existing forum topic
 exports.editTopicController = async (req, res) => {
-  const { title, description, privacy } = req.body;
-  const topicId = req.params.id;
-  const { userId } = req.user; // Assuming the userId is available in req.user
-
+  const errors = validationResult(req);
   try {
+    if (!errors.isEmpty()) {
+      throw new CustomError(400, "Invalid inputs");
+    }
+    const { title, description, privacy } = req.body;
+    const topicId = req.params.id;
+    const { userId } = req.user;
+
     // Check if the user has the permission to edit the topic
     const existingTopic = await ForumTopic.findById(topicId);
 
@@ -118,10 +129,13 @@ exports.editTopicController = async (req, res) => {
 
 // Delete a forum topic
 exports.deleteTopicController = async (req, res) => {
-  const topicId = req.params.id;
-  const { userId } = req.user;
-
+  const errors = validationResult(req);
   try {
+    if (!errors.isEmpty()) {
+      throw new CustomError(400, "Validation failed");
+    }
+    const topicId = req.params.id;
+    const { userId } = req.user;
     // Check if the user with userId exists
     const user = await User.findById(userId);
     if (!user) {
@@ -159,8 +173,13 @@ exports.deleteTopicController = async (req, res) => {
 
 // Get all topics of a person
 exports.getTopicsOfAnIndividualController = async (req, res, next) => {
-  const { userId } = req.user;
+  const errors = validationResult(req);
+
   try {
+    if (!errors.isEmpty()) {
+      throw new CustomError(400, "Invalid inputs");
+    }
+    const { userId } = req.user;
     // Find the user by userId
     const user = await User.findById(userId);
 
@@ -182,11 +201,14 @@ exports.getTopicsOfAnIndividualController = async (req, res, next) => {
 
 //Create a comment
 exports.createAComment = async (req, res, next) => {
-  const { userId } = req.user;
-  const topicId = req.params.id;
-  const { message } = req.body;
-
+  const errors = validationResult(req);
   try {
+    if (!errors.isEmpty()) {
+      throw new CustomError(400, "Invalid inputs");
+    }
+    const { userId } = req.user;
+    const topicId = req.params.id;
+    const { message } = req.body;
     // Find the user by ID
     const user = await User.findById(userId);
 
@@ -206,7 +228,6 @@ exports.createAComment = async (req, res, next) => {
       message,
       createdBy: userId,
     });
-    console.log(newComment);
 
     // Save the comment
     await newComment.save();
