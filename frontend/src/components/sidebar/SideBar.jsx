@@ -17,7 +17,7 @@ import { imageUrlReturner } from "../shared/FetchProfilePicture";
 import { useSelector, useDispatch } from "react-redux";
 import { UpdateUser } from "../../store/userSlice";
 
-const UploadPicture = ({ onClick }) => {
+const UploadPicture = ({ onClick, token }) => {
   const [image, setImage] = useState(null);
   const dispatch = useDispatch();
 
@@ -41,17 +41,18 @@ const UploadPicture = ({ onClick }) => {
     if (image) {
       const formData = new FormData();
       formData.append("file", image);
-      console.log(formData.get("file")); // Log the file in the FormData object
 
       try {
         const response = await fetch(updateProfilePicture, {
           method: "POST",
           credentials: "include",
+          headers: {
+            "CSRF-Token": token,
+          },
           body: formData,
         });
 
         const data = await response.json();
-        console.log(data);
 
         data.success
           ? successNotification("Profile Picture uploaded successfully") &&
@@ -59,6 +60,8 @@ const UploadPicture = ({ onClick }) => {
           : errorNotification("Error Uploading profile picture");
       } catch (error) {
         console.error("Error:", error);
+      } finally {
+        onClick();
       }
     } else {
       errorNotification("Please choose to upload.");
@@ -114,6 +117,7 @@ const SideBar = () => {
   const picture = useSelector((store) => store?.user?.user?.profilePicture);
   const userName = useSelector((store) => store?.user?.user?.fullname);
   const userRole = useSelector((store) => store?.user?.user?.role);
+  const token = useSelector((store) => store?.token?.token);
 
   const closeModal = () => {
     setPictureModal(false);
@@ -163,7 +167,7 @@ const SideBar = () => {
       {pictureModal && (
         <Overlay onClick={closeModal}>
           <Modal>
-            <UploadPicture onClick={closeModal} />
+            <UploadPicture onClick={closeModal} token={token} />
           </Modal>
         </Overlay>
       )}

@@ -3,11 +3,12 @@ import { useParams } from "react-router-dom";
 import { format } from "timeago.js";
 
 import { errorNotification } from "../components/shared/notifications/Notification";
-import { headers, viewTopic } from "../../utils/Urls";
+import { viewTopic, headers } from "../../utils/Urls";
 import { ToastContainer } from "react-toastify";
 
 import AddComment from "../components/addcomment/AddComment";
 import { MdOutlinePersonOutline } from "react-icons/md";
+import { useSelector } from "react-redux";
 
 const ForumDetailPage = () => {
   const [post, setPost] = useState(null);
@@ -23,6 +24,9 @@ const ForumDetailPage = () => {
   };
 
   const { id } = useParams();
+
+  //Fetching headers for CSRF token mechanism
+  const headers = useSelector((store) => store?.token?.headers);
 
   useEffect(() => {
     const fetchPost = async () => {

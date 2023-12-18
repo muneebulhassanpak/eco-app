@@ -12,6 +12,7 @@ import {
 } from "../shared/notifications/Notification";
 import { headers, editOneProduct } from "../../../utils/Urls";
 import { ToastContainer } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const privacyValues = [
   { value: "public", label: "Public" },
@@ -51,6 +52,9 @@ const EditProduct = ({
         Number(quantity) >= 1
     );
   }, [name, description, image, price, quantity]);
+
+  //Fetching headers for CSRF token mechanism
+  const headers = useSelector((store) => store?.token?.headers);
 
   const productEditHandler = async (e) => {
     e.preventDefault();

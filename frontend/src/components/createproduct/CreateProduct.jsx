@@ -5,13 +5,14 @@ import InputField from "../shared/inputfield/InputField";
 import Button from "../shared/button/Button";
 import { ImCross } from "react-icons/im";
 
-import { createOneProduct, headers } from "../../../utils/Urls";
+import { createOneProduct } from "../../../utils/Urls";
 import {
   errorNotification,
   successNotification,
 } from "../shared/notifications/Notification";
 
 import { ToastContainer } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const privacy = [
   { value: "private", label: "Private" },
@@ -41,6 +42,8 @@ const CreateProduct = ({ onClick, sendBackNewProduct }) => {
         Number(quantity) >= 1
     );
   }, [name, description, image, price, quantity]);
+  //Fetching headers for CSRF token mechanism
+  const headers = useSelector((store) => store?.token?.headers);
 
   const productCreationFormHandler = async (e) => {
     e.preventDefault();

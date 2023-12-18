@@ -4,12 +4,13 @@ import InputField from "../shared/inputfield/InputField";
 import { ImCross } from "react-icons/im";
 import Button from "../shared/button/Button";
 
-import { headers, registerUrl } from "../../../utils/Urls";
+import { registerUrl } from "../../../utils/Urls";
 import {
   successNotification,
   errorNotification,
 } from "../shared/notifications/Notification";
 import { ToastContainer } from "react-toastify";
+import { useSelector } from "react-redux";
 
 import DOMPurify from "dompurify"; // Import DOMPurify for input sanitization
 
@@ -34,6 +35,9 @@ const Signup = ({ onClick }) => {
         password.length > 6
     );
   }, [fullname, email, password]);
+
+  //Fetching headers for CSRF token mechanism
+  const headers = useSelector((store) => store?.token?.headers);
 
   //Form submission Handler
   const handleSignup = async (e) => {

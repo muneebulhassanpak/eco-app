@@ -1,14 +1,25 @@
 const baseURL = "http://localhost:8080/api";
 
+//CSRF getting url----------------------------------
+export const csrfTokenURL = `${baseURL}/csrf-token`;
+
+//Login url-----------------------------------------
 export const loginUrl = `${baseURL}/login`;
+
+//Register url--------------------------------------
 export const registerUrl = `${baseURL}/register`;
 
 const baseForumUrl = `${baseURL}/forum`;
 
+//Creating a new topic url
 export const createTopic = `${baseForumUrl}/create`;
+//Fetcing all topics to show on forum page
 export const getAllTopics = `${baseForumUrl}/get`;
+//Editing a topic (creator only)
 export const editTopic = (id) => `${baseForumUrl}/edit/${id}`;
+//Editing a topic (creator only/all)
 export const viewTopic = (id) => `${baseForumUrl}/get/${id}`;
+//Deleting a topic (creator only)
 export const deleteTopic = (id) => `${baseForumUrl}/delete/${id}`;
 
 //Profile picture updating Url

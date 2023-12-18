@@ -16,6 +16,8 @@ import { headers, loginUrl } from "../../../utils/Urls";
 
 import { useNavigate } from "react-router-dom";
 
+import { useSelector } from "react-redux";
+
 const Login = ({ onClick }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -23,6 +25,9 @@ const Login = ({ onClick }) => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  //Fetching headers for CSRF token mechanism
+  const headers = useSelector((store) => store?.token?.headers);
 
   useEffect(() => {
     setFormIsValid(
@@ -40,7 +45,6 @@ const Login = ({ onClick }) => {
       navigate("/forum");
     }, 1500);
   };
-
   const handleLogin = async (e) => {
     e.preventDefault();
     if (!formIsValid) {
@@ -54,7 +58,7 @@ const Login = ({ onClick }) => {
 
     // If both email and password are valid, proceed with the login
     const dataObject = { email: sanitizedEmail, password: sanitizedPassword };
-    console.log(dataObject);
+    //Modified headers
     let response = await fetch(loginUrl, {
       method: "POST",
       headers,

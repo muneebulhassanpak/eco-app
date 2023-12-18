@@ -8,12 +8,16 @@ import {
 } from "../components/shared/notifications/Notification";
 
 import { headers, getOneProduct } from "../../utils/Urls";
+import { useSelector } from "react-redux";
 
 const ProductDetailPage = () => {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
   const { id } = useParams();
+
+  //Fetching headers for CSRF token mechanism
+  const headers = useSelector((store) => store?.token?.headers);
 
   useEffect(() => {
     const fetchPost = async () => {

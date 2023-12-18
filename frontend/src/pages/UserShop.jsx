@@ -4,9 +4,14 @@ import ForumCard from "../components/forumcard/ForumCard";
 import { getAllForumTopics, headers } from "../../utils/Urls";
 import { errorNotification } from "../components/shared/notifications/Notification";
 import { ToastContainer } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const UserShop = () => {
   const [topics, setTopics] = useState([]);
+
+  //Fetching headers for CSRF token mechanism
+  const headers = useSelector((store) => store?.token?.headers);
+
   useEffect(() => {
     const fetchPosts = async () => {
       try {

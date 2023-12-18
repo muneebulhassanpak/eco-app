@@ -1,20 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
 import {
   errorNotification,
   successNotification,
 } from "../components/shared/notifications/Notification";
-
 import ForumCard from "../components/forumcard/ForumCard";
 import {
   getAllTopicsForAPerson,
-  headers,
   deleteTopic,
   viewTopic,
 } from "../../utils/Urls";
-
 import { MdOutlineDeleteOutline } from "react-icons/md";
 import { LuSend } from "react-icons/lu";
 import { FiEdit2 } from "react-icons/fi";
@@ -22,6 +18,7 @@ import { FiEdit2 } from "react-icons/fi";
 import EditForumTopic from "../components/editforumtopic/EditForumTopic";
 import Overlay from "../components/shared/overlay/Overlay";
 import Modal from "../components/shared/modal/Modal";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
   const userId = useSelector((store) => store?.user?.user?._id);
@@ -46,6 +43,9 @@ const Dashboard = () => {
       return updatedArticles;
     });
   };
+
+  //Fetching headers for CSRF token mechanism
+  const headers = useSelector((store) => store?.token?.headers);
 
   useEffect(() => {
     const fetchPosts = async () => {

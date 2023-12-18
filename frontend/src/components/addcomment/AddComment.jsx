@@ -4,7 +4,7 @@ import InputField from "../shared/inputfield/InputField";
 import { LuSend } from "react-icons/lu";
 import DOMPurify from "dompurify"; // Import DOMPurify for input sanitization
 
-import { createAComment, headers } from "../../../utils/Urls";
+import { createAComment } from "../../../utils/Urls";
 import {
   errorNotification,
   successNotification,
@@ -19,11 +19,12 @@ const AddComment = ({ id, addComment }) => {
 
   //Checking if user is logged in, if logged in then allow to comment, else no
   const isUserLoggedIn = useSelector((store) => store?.user?.isLoggedIn);
+  //Fetching headers for CSRF token mechanism
+  const headers = useSelector((store) => store?.token?.headers);
 
   useEffect(() => {
     setFormIsValid(comment.trim().length >= 2 && isUserLoggedIn);
   }, [comment, isUserLoggedIn]);
-  console.log(comment, isUserLoggedIn);
 
   const commentSubmitHandler = async (e) => {
     e.preventDefault();

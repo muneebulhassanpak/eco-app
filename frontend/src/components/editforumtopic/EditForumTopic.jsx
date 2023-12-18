@@ -10,8 +10,9 @@ import {
   successNotification,
 } from "../shared/notifications/Notification";
 
-import { headers, editTopic } from "../../../utils/Urls";
+import { editTopic } from "../../../utils/Urls";
 import { ToastContainer } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const privacyValues = [
   { value: "public", label: "Public" },
@@ -34,6 +35,9 @@ const EditForumTopic = ({
   useEffect(() => {
     setFormIsValid(title.trim().length > 4 && description.trim().length > 10);
   }, [title, description]);
+
+  //Fetching headers for CSRF token mechanism
+  const headers = useSelector((store) => store?.token?.headers);
 
   const postCreationHandler = async (e) => {
     e.preventDefault();

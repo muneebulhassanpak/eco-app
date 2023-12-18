@@ -10,7 +10,7 @@ import {
   errorNotification,
   successNotification,
 } from "../components/shared/notifications/Notification";
-import { headers, getAllTopics } from "../../utils/Urls";
+import { getAllTopics } from "../../utils/Urls";
 
 import { useDispatch, useSelector } from "react-redux";
 import { StartLoading, Fetched, CloseLoading } from "../store/allarticles";
@@ -20,6 +20,9 @@ const Forum = () => {
   const [data, setData] = useState([]);
 
   const loading = useSelector((store) => store?.allArticles?.loading);
+  const isLoggedIn = useSelector((store) => store?.user?.isLoggedIn);
+  //Fetching headers for CSRF token mechanism
+  const headers = useSelector((store) => store?.token?.headers);
 
   const closeModal = () => {
     setTopicModalStatus(false);
@@ -59,15 +62,17 @@ const Forum = () => {
           <div className="w-full sm:flex-1">
             <ForumSearchBar />
           </div>
-          <div>
-            <Button
-              style="blackFilled"
-              text="Post Question"
-              onClick={() => {
-                setTopicModalStatus(true);
-              }}
-            />
-          </div>
+          {isLoggedIn && (
+            <div>
+              <Button
+                style="blackFilled"
+                text="Post Question"
+                onClick={() => {
+                  setTopicModalStatus(true);
+                }}
+              />
+            </div>
+          )}
         </div>
 
         <div className="py-4 flex flex-col sm:flex-row justify-between sm:items-center flex-wrap">

@@ -6,13 +6,13 @@ import Modal from "../components/shared/modal/Modal";
 import Overlay from "../components/shared/overlay/Overlay";
 import CreateProduct from "../components/createproduct/CreateProduct";
 
-import { getAllProducts, headers } from "../../utils/Urls";
+import { getAllProducts } from "../../utils/Urls";
 import {
   errorNotification,
   successNotification,
 } from "../components/shared/notifications/Notification";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const EcoShop = () => {
   const [openCreateProductModal, setOpenCreateModal] = useState(false);
@@ -47,6 +47,8 @@ const EcoShop = () => {
 
   //checking for the role of logged in person, if he is admin then we'll show add product button otherwise hide
   const role = useSelector((store) => store?.user?.user?.role);
+  //Fetching headers for CSRF token mechanism
+  const headers = useSelector((store) => store?.token?.headers);
 
   useEffect(() => {
     const fetchProducts = async () => {
