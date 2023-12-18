@@ -17,7 +17,7 @@ const {
   getPrivateProducts,
 } = require("../controllers/admin-controller");
 
-router.get("/getAllProducts", adminVerification, getAllProducts);
+router.get("/getAllProducts", getAllProducts);
 
 router.get("/getPrivateProducts", adminVerification, getPrivateProducts);
 
@@ -32,7 +32,6 @@ router.get(
       .isMongoId()
       .withMessage("Invalid Product ID"),
   ],
-  adminVerification,
   getOneProduct
 );
 

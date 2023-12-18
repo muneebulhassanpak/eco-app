@@ -7,7 +7,6 @@ import Header from "./components/header/Header";
 import Dashboard from "./pages/Dashboard";
 import Forum from "./pages/Forum";
 import UserShop from "./pages/UserShop";
-import Agronomists from "./pages/Agronomists";
 import DashboardWrapper from "./Wrappers/DashboardWrapper";
 import EcoShop from "./pages/EcoShop";
 import ForumDetailPage from "./pages/ForumDetailPage";
@@ -90,7 +89,6 @@ const App = () => {
         <Route path="/forum/query/:query" element={<ForumQueryPage />} />
         <Route path="/forum" element={<Forum />} />
         <Route path="/forum/:id" element={<ForumDetailPage />} />
-        <Route path="/agronomists" element={<Agronomists />} />
       </Routes>
     </div>
   );

@@ -73,15 +73,7 @@ const Header = () => {
             <div className="w-2/3 flex flex-col md:flex-row justify-center items-center gap-8">
               <Link text="Forum" link="/forum" />
               <Link text="EcoShop" link="/ecoshop" />
-              {isLoggedIn ? (
-                <>
-                  <Link text="Dashboard" link="/dashboard/forum" />
-                </>
-              ) : (
-                <>
-                  <Link text="Agronomists" link="/agronomists" />
-                </>
-              )}
+              {isLoggedIn && <Link text="Dashboard" link="/dashboard/forum" />}
             </div>
 
             <div className="w-1/3 flex flex-col md:flex-row justify-end items-center gap-4">

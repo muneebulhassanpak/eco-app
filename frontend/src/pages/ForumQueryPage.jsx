@@ -20,7 +20,6 @@ const ForumQueryPage = () => {
           credentials: "include",
         });
         response = await response.json();
-        console.log(response);
         response.success == true && setTopics(response.matchingTopics);
         response.success == false &&
           errorNotification(

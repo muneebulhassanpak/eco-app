@@ -16,7 +16,6 @@ import DOMPurify from "dompurify"; // Import DOMPurify for input sanitization
 
 const roleOptions = [
   { value: "farmer", label: "Farmer" },
-  { value: "agronomist", label: "Agronomist" },
   { value: "admin", label: "Admin" },
 ];
 
