@@ -9,7 +9,6 @@ const verify = (req, res, next) => {
   }
   recievedToken = recievedToken.split("=")[1];
   const status = jwt.verify(recievedToken, process.env.JWT_KEY);
-  console.log(status);
   req.user = status;
   next();
 };

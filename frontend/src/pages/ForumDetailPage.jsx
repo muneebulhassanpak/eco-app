@@ -91,7 +91,9 @@ const ForumDetailPage = () => {
             <AddComment id={post._id} addComment={addAComment} />
           </div>
         ) : (
-          <p>No data available</p>
+          <div className="h-[70vh] grid place-items-center">
+            <p className="text-center">No data available</p>
+          </div>
         )}
       </div>
       <ToastContainer />

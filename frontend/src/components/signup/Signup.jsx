@@ -11,6 +11,8 @@ import {
 } from "../shared/notifications/Notification";
 import { ToastContainer } from "react-toastify";
 
+import DOMPurify from "dompurify"; // Import DOMPurify for input sanitization
+
 const roleOptions = [
   { value: "farmer", label: "Farmer" },
   { value: "agronomist", label: "Agronomist" },
@@ -26,14 +28,12 @@ const Signup = ({ onClick }) => {
 
   useEffect(() => {
     setFormIsValid(
-      fullname.length > 4 &&
+      fullname.length > 3 &&
         /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) &&
-        roleOptions.some(
-          (option) => option.label.toLocaleLowerCase() === selectedOption
-        ) &&
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d{2,})/.test(password)
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d{2,})/.test(password) &&
+        password.length > 6
     );
-  }, [fullname, email, selectedOption, password]);
+  }, [fullname, email, password]);
 
   //Form submission Handler
   const handleSignup = async (e) => {
@@ -43,8 +43,8 @@ const Signup = ({ onClick }) => {
       return;
     }
     const dataObject = {
-      fullname,
-      email,
+      fullname: DOMPurify.sanitize(fullname),
+      email: DOMPurify.sanitize(email),
       role: selectedOption.toLowerCase(),
       password,
     };
@@ -64,6 +64,7 @@ const Signup = ({ onClick }) => {
     setEmail("");
     setPassword("");
     setSelectedOption("farmer");
+    onClick();
   };
 
   return (
@@ -82,10 +83,10 @@ const Signup = ({ onClick }) => {
           <InputField
             type="text"
             text="Full Name"
+            placeholder="Name should have atleast 4 characters"
             onChange={(e) => {
               setFullName(e.target.value);
             }}
-            placeholder="Max Milian"
             value={fullname}
           />
 
@@ -115,7 +116,7 @@ const Signup = ({ onClick }) => {
             onChange={(e) => {
               setPassword(e.target.value);
             }}
-            placeholder="Min one uppercase, one lowercase, 3 numbers"
+            placeholder="Min 7 charcters, one uppercase, one lowercase, 3 numbers"
             value={password}
           />
           <div className="text-center mt-4">

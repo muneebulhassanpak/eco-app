@@ -5,16 +5,19 @@ const Admin = require("../models/Admin");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 
+//Express validator validationResult is used to get any errors if there were any in previous steps
+const { validationResult } = require("express-validator");
+
 exports.registrationController = async (req, res, next) => {
-  const { fullname, email, role, password } = req.body;
-
+  const errors = validationResult(req);
   try {
-    if (!fullname || !email || !role || !password) {
-      throw new CustomError(400, "Missing fields for registration");
+    if (!errors.isEmpty()) {
+      throw new CustomError(400, "Wrong inputs, validation failed");
     }
-
+    const { fullname, email, role, password } = req.body;
     // Check if an admin user exists
     const adminUser = await User.findOne({ role: "admin" });
+
     if (adminUser && role.toLowerCase() === "admin") {
       throw new CustomError(403, "You are not authorized to register as admin");
     }
@@ -51,12 +54,13 @@ exports.registrationController = async (req, res, next) => {
 
 // => Logging in a user
 exports.loginController = async (req, res, next) => {
-  const { email, password } = req.body;
-  console.log(req.body);
-  if (!email || !password) {
-    return next(new CustomError(404, "Missing credentials"));
-  }
+  const errors = validationResult(req);
+
   try {
+    if (!errors.isEmpty()) {
+      throw new CustomError(400, "Wrong inputs, validation failed");
+    }
+    const { email, password } = req.body;
     const user = await User.findOne({ email: email });
     if (!user) {
       return next(new CustomError(401, "Incorrect login credentials"));

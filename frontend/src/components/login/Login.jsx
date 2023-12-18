@@ -67,13 +67,13 @@ const Login = ({ onClick }) => {
     setFormIsValid(false);
     //response handling
     response = await response.json();
-    console.log(response);
     response.success == true &&
       successNotification("Login successful") &&
       dispatch(loginAction(response.user)) &&
       closeLoginModalWithDelay();
     response.success == false &&
       errorNotification(response.message || "something went wrong in login");
+    onClick();
   };
 
   return (
