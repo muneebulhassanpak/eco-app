@@ -4,7 +4,10 @@ const verify = require("../utils/JWTVerification");
 const multer = require("multer");
 const upload = multer({ dest: "uploads/ProfilePictures" });
 
-const { updateProfilePicture } = require("../controllers/user-controller");
+const {
+  updateProfilePicture,
+  getUserData,
+} = require("../controllers/user-controller");
 
 router.post(
   "/updateProfilePicture",
@@ -12,5 +15,7 @@ router.post(
   upload.single("file"),
   updateProfilePicture
 );
+
+router.get("/getUserData", verify, getUserData);
 
 module.exports = router;

@@ -134,7 +134,7 @@ const SideBar = () => {
           <div className={picture ? normalStyles : imageStyles}>
             {picture ? (
               <img
-                src={`http://localhost:8080/${imageUrlReturner()}`}
+                src={`https://localhost:8080/${imageUrlReturner()}`}
                 className="w-12 h-12 rounded-full object-cover"
                 onClick={() => {
                   setPictureModal(true);

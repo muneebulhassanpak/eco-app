@@ -1,4 +1,7 @@
-const baseURL = "http://localhost:8080/api";
+const baseURL = "https://localhost:8080/api";
+
+//Information of user if cookie exists
+export const fetchUserData = `${baseURL}/forum/getUserData`;
 
 //CSRF getting url----------------------------------
 export const csrfTokenURL = `${baseURL}/csrf-token`;

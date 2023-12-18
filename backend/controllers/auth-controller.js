@@ -82,7 +82,9 @@ exports.loginController = async (req, res, next) => {
 
     // Set the cookie with the same options
     res
-      .cookie("access_token", token)
+      .cookie("access_token", token, {
+        secure: true,
+      })
       .header("Access-Control-Allow-Credentials", "true")
       .status(200)
       .json({
@@ -90,6 +92,7 @@ exports.loginController = async (req, res, next) => {
         message: "Successfully Logged in",
         user: userWithoutPassword,
       });
+
     return res;
   } catch (err) {
     return next(err);

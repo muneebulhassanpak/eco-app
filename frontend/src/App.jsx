@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
+import Cookies from "js-cookie"; // Import the Cookies library
 
 import Home from "./pages/Home";
 import Header from "./components/header/Header";
@@ -13,14 +14,15 @@ import ForumDetailPage from "./pages/ForumDetailPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 
 import Protected from "./pages/Protected";
-
-//CSRF Mechanism
-import { csrfTokenURL } from "../utils/Urls";
+import { Login as loginAction } from "./store/userSlice";
+import { csrfTokenURL, fetchUserData } from "../utils/Urls";
 import { useDispatch } from "react-redux";
 import { setToken } from "./store/csrfToken";
 
 const App = () => {
+  const [localToken, setLocalToken] = useState(null);
   const dispatch = useDispatch();
+
   useEffect(() => {
     // Fetch CSRF token from the server
     fetch(csrfTokenURL, {
@@ -29,15 +31,40 @@ const App = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         // Store the CSRF token
         dispatch(setToken(data.csrfToken));
-        console.log(data);
+        setLocalToken(data.csrfToken);
       })
       .catch((error) => {
         console.error("Error fetching CSRF token:", error);
       });
   }, []); // Run this effect only once when the component mounts
+
+  useEffect(() => {
+    // Run this effect only if localToken exists
+    if (localToken) {
+      const cookie = Cookies.get("access_token");
+
+      const pullUserData = () => {
+        fetch(fetchUserData, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Credentials": true,
+            "CSRF-Token": localToken,
+          },
+          credentials: "include",
+        })
+          .then((response) => response.json())
+          .then((user) => {
+            user.success == true && dispatch(loginAction(user.user));
+          });
+      };
+
+      cookie && pullUserData();
+    }
+  }, [localToken]); // Run this effect whenever localToken changes
 
   return (
     <>

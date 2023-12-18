@@ -38,3 +38,23 @@ exports.updateProfilePicture = async (req, res, next) => {
     return next(err);
   }
 };
+
+//Getting data for someone who has already logged in
+exports.getUserData = async (req, res, next) => {
+  try {
+    const { userId } = req.user;
+
+    // Check if the user exists
+    const user = await User.findById(userId);
+    if (!user) {
+      return next(new CustomError(401, "No such user exists"));
+    }
+
+    return res.json({
+      success: true,
+      user: user,
+    });
+  } catch (error) {
+    return next(error);
+  }
+};

@@ -18,7 +18,6 @@ import { FiEdit2 } from "react-icons/fi";
 import EditForumTopic from "../components/editforumtopic/EditForumTopic";
 import Overlay from "../components/shared/overlay/Overlay";
 import Modal from "../components/shared/modal/Modal";
-import { useSelector } from "react-redux";
 
 const Dashboard = () => {
   const userId = useSelector((store) => store?.user?.user?._id);

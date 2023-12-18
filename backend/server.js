@@ -6,6 +6,8 @@ const mongoose = require("mongoose");
 const path = require("path");
 const csrf = require("csurf");
 const cookieParser = require("cookie-parser");
+const https = require("https");
+const fs = require("fs");
 
 const connectWithDatabase = require("./utils/database-connection");
 //Route imports
@@ -24,7 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "/uploads")));
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://web.postman.co"],
+    origin: ["https://localhost:5173", "https://web.postman.co"],
     methods: "GET, POST, PUT, DELETE, PATCH",
     credentials: true,
   })
@@ -38,6 +40,12 @@ const csrfProtection = csrf({
 });
 
 app.use(csrfProtection);
+
+//SSL/TLS encryption
+const options = {
+  key: fs.readFileSync("server.key"),
+  cert: fs.readFileSync("server.cert"),
+};
 
 // Include CSRF Token in Response Headers
 app.use((req, res, next) => {
@@ -86,10 +94,11 @@ app.use((err, req, res, next) => {
 
 // Creating server
 const SERVERPORT = process.env.SERVERPORT || 3000;
+const server = https.createServer(options, app);
 
 mongoose.connection.once("open", () => {
-  app.listen(SERVERPORT, () => {
-    console.log(`Server running on ${SERVERPORT}`);
+  server.listen(SERVERPORT, () => {
+    console.log(`Server running on https://localhost:${SERVERPORT}`);
   });
 });
 
