@@ -13,6 +13,7 @@ import EcoShop from "./pages/EcoShop";
 import ForumDetailPage from "./pages/ForumDetailPage";
 import ProductDetailPage from "./pages/ProductDetailPage";
 import ForumQueryPage from "./pages/ForumQueryPage";
+import PrivateProducts from "./pages/PrivateProducts";
 
 import Protected from "./pages/Protected";
 import { Login as loginAction } from "./store/userSlice";
@@ -83,7 +84,8 @@ const App = () => {
           }
         >
           <Route path="forum" index element={<Dashboard />} />
-          <Route path="shop" element={<UserShop />} />
+          <Route path="alluserdata" element={<UserShop />} />
+          <Route path="privateproducts" element={<PrivateProducts />} />
         </Route>
         <Route path="/forum/query/:query" element={<ForumQueryPage />} />
         <Route path="/forum" element={<Forum />} />

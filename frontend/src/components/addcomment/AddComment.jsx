@@ -59,7 +59,7 @@ const AddComment = ({ id, addComment }) => {
   };
   return (
     <>
-      <div className="mt-4 max-w-md mx-auto px-4">
+      <div className="mt-4 max-w-md mx-auto px-4 mb-2">
         <form onSubmit={commentSubmitHandler}>
           <div className="flex justify-between items-end">
             <div className="w-full">

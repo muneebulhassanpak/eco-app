@@ -14,9 +14,12 @@ const {
   editProductHandler,
   deleteProductHandler,
   getAllForumTopicsHandler,
+  getPrivateProducts,
 } = require("../controllers/admin-controller");
 
-router.get("/getAllProducts", getAllProducts);
+router.get("/getAllProducts", adminVerification, getAllProducts);
+
+router.get("/getPrivateProducts", adminVerification, getPrivateProducts);
 
 router.get("/getAllForumTopics", getAllForumTopicsHandler);
 
@@ -29,6 +32,7 @@ router.get(
       .isMongoId()
       .withMessage("Invalid Product ID"),
   ],
+  adminVerification,
   getOneProduct
 );
 
@@ -36,16 +40,8 @@ router.post(
   "/createProduct",
   adminVerification,
   [
-    body("name")
-      .notEmpty()
-      .withMessage("Name is required")
-      .matches(/^[a-zA-Z0-9\s]+$/)
-      .withMessage("Name must contain only alphabets and numbers"),
-    body("description")
-      .notEmpty()
-      .withMessage("Description is required")
-      .matches(/^[a-zA-Z0-9\s]+$/)
-      .withMessage("Description must contain only alphabets and numbers"),
+    body("name").notEmpty().withMessage("Name is required"),
+    body("description").notEmpty().withMessage("Description is required"),
     body("image").notEmpty().withMessage("Image is required"),
     body("price")
       .notEmpty()
@@ -92,16 +88,8 @@ router.patch(
       .withMessage("Product ID is required")
       .isMongoId()
       .withMessage("Invalid Product ID"),
-    body("name")
-      .notEmpty()
-      .withMessage("Name is required")
-      .matches(/^[a-zA-Z0-9\s]+$/)
-      .withMessage("Name must contain only alphabets and numbers"),
-    body("description")
-      .notEmpty()
-      .withMessage("Description is required")
-      .matches(/^[a-zA-Z0-9\s]+$/)
-      .withMessage("Description must contain only alphabets and numbers"),
+    body("name").notEmpty().withMessage("Name is required"),
+    body("description").notEmpty().withMessage("Description is required"),
     body("image").notEmpty().withMessage("Image is required"),
     body("price")
       .notEmpty()

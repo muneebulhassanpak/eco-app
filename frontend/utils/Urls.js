@@ -42,6 +42,8 @@ const baseAdminUrl = `${baseURL}/admin`;
 export const getAllForumTopics = `${baseAdminUrl}/getAllForumTopics`;
 //Getting all products to show on ecoshop page (accessible to everyone)
 export const getAllProducts = `${baseAdminUrl}/getAllProducts`;
+//Getting all products to show on ecoshop page (accessible to everyone)
+export const getPrivateProducts = `${baseAdminUrl}/getPrivateProducts`;
 //Getting individual product from database (accessible to everyone)
 export const getOneProduct = (productId) =>
   `${baseAdminUrl}/getOneProduct/${productId}`;

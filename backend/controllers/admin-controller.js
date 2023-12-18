@@ -10,15 +10,35 @@ const { validationResult } = require("express-validator");
 
 //Get all products
 exports.getAllProducts = async (req, res, next) => {
+  const { userId } = req.user;
+
   try {
-    // Fetch all products
-    const allProducts = await Product.find();
-    res.json({
+    // Find the user by ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+      throw new CustomError(404, "User not found");
+    }
+
+    // Fetch details for each product in the user's products array
+    const privateProducts = await Promise.all(
+      user.products.map(async (productId) => {
+        const product = await Product.findById(productId);
+
+        // Check if the product exists and has privacy set to private
+        return product && product.privacy === "public" ? product : null;
+      })
+    );
+
+    // Filter out null values (products that don't exist or have privacy set to public)
+    const filteredPrivateProducts = privateProducts.filter(Boolean);
+
+    return res.json({
       success: true,
-      products: allProducts || [],
+      products: filteredPrivateProducts || [],
     });
-  } catch (error) {
-    next(error);
+  } catch (err) {
+    return next(err);
   }
 };
 
@@ -111,6 +131,7 @@ exports.editProductHandler = async (req, res, next) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
+      console.log(errors);
       throw new CustomError(400, "Validation failed");
     }
 
@@ -155,6 +176,40 @@ exports.getAllForumTopicsHandler = async (req, res, next) => {
     return res.json({
       success: true,
       forumTopics: allForumTopics,
+    });
+  } catch (err) {
+    return next(err);
+  }
+};
+
+//Get admin's private products
+exports.getPrivateProducts = async (req, res, next) => {
+  const { userId } = req.user;
+
+  try {
+    // Find the user by ID
+    const user = await User.findById(userId);
+
+    if (!user) {
+      throw new CustomError(404, "User not found");
+    }
+
+    // Fetch details for each product in the user's products array
+    const privateProducts = await Promise.all(
+      user.products.map(async (productId) => {
+        const product = await Product.findById(productId);
+
+        // Check if the product exists and has privacy set to private
+        return product && product.privacy === "private" ? product : null;
+      })
+    );
+
+    // Filter out null values (products that don't exist or have privacy set to public)
+    const filteredPrivateProducts = privateProducts.filter(Boolean);
+
+    return res.json({
+      success: true,
+      privateProducts: filteredPrivateProducts,
     });
   } catch (err) {
     return next(err);

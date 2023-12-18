@@ -159,7 +159,18 @@ const SideBar = () => {
         <div className="">
           <Link text="Forum" link="/dashboard/forum" type="bars" />
           {userRole == "admin" && (
-            <Link text="Users Data" link="/dashboard/shop" type="bars" />
+            <>
+              <Link
+                text="Users Data"
+                link="/dashboard/alluserdata"
+                type="bars"
+              />
+              <Link
+                text="Private Products"
+                link="/dashboard/privateproducts"
+                type="bars"
+              />
+            </>
           )}
         </div>
         <div className="text-center">settings</div>

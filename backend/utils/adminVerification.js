@@ -3,13 +3,29 @@ const jwt = require("jsonwebtoken");
 const CustomError = require("../ErrorHandling/Error");
 
 const adminVerification = (req, res, next) => {
-  let receivedToken = req?.headers?.cookie;
+  let receivedToken;
 
-  if (!receivedToken) {
+  // Extract the cookie string from the headers
+  const cookieHeader = req?.headers?.cookie;
+
+  if (!cookieHeader) {
     throw new CustomError(402, "You are not authorized");
   }
 
-  receivedToken = receivedToken.split("=")[1];
+  // Parse the cookie string to get an object of key-value pairs
+  const cookies = cookieHeader.split(";").reduce((acc, cookie) => {
+    const [key, value] = cookie.trim().split("=");
+    acc[key] = value;
+    return acc;
+  }, {});
+
+  // Check if the cookie containing the token exists
+  if (!cookies.access_token) {
+    throw new CustomError(402, "You are not authorized");
+  }
+
+  // Extract the token from the cookie
+  receivedToken = cookies.access_token;
 
   try {
     const decodedToken = jwt.verify(receivedToken, process.env.JWT_KEY);

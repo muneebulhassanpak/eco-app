@@ -9,11 +9,8 @@ import Login from "../login/Login";
 import Signup from "../signup/Signup";
 import Modal from "../shared/modal/Modal";
 import { motion } from "framer-motion";
-import {
-  successNotification,
-  errorNotification,
-} from "../shared/notifications/Notification";
-import { IoMenu } from "react-icons/io5";
+import { CgMenuLeft } from "react-icons/cg";
+import { RxCross1 } from "react-icons/rx";
 
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -121,12 +118,21 @@ const Header = () => {
               )}
             </div>
           </nav>
-          <IoMenu
-            className="block md:hidden text-3xl cursor-pointer"
-            onClick={() => {
-              setMenu((prev) => !prev);
-            }}
-          />
+          {menu ? (
+            <RxCross1
+              className="block md:hidden text-xl cursor-pointer transition-all ease-in-out"
+              onClick={() => {
+                setMenu((prev) => !prev);
+              }}
+            />
+          ) : (
+            <CgMenuLeft
+              className="block md:hidden text-3xl cursor-pointer transition-all ease-in-out"
+              onClick={() => {
+                setMenu((prev) => !prev);
+              }}
+            />
+          )}
         </div>
       </motion.header>
       {activateLogin && (

@@ -55,7 +55,7 @@ const CreateProduct = ({ onClick, sendBackNewProduct }) => {
       quantity: Math.round(Number(quantity)),
       privacy: selectedOption.toLowerCase(),
     };
-    console.log(newProductData);
+
     //Product creation logic
     try {
       let response = await fetch(createOneProduct, {
@@ -65,7 +65,6 @@ const CreateProduct = ({ onClick, sendBackNewProduct }) => {
         body: JSON.stringify(newProductData),
       });
       response = await response.json();
-      console.log(response);
 
       if (response.success) {
         successNotification("Product added successfully") &&

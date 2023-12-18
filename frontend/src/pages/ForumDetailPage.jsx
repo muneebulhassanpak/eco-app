@@ -80,12 +80,15 @@ const ForumDetailPage = () => {
                 </h2>
                 <ul>
                   {post.comments.map((comment) => (
-                    <li key={comment._id} className="flex items-center mb-2">
+                    <li
+                      key={comment._id}
+                      className="flex flex-col sm:flex-row items-center mb-2 border py-2 sm:py-0 rounded-sm sm:border-0"
+                    >
                       <div className="w-7 h-7 bg-gray-500 rounded-full mr-2 border border-black grid place-items-center">
                         <MdOutlinePersonOutline className="text-white" />
                       </div>
                       <p>{comment.message}</p>
-                      <p className="ml-auto">{format(comment.createdAt)}</p>
+                      <p className="sm:ml-auto">{format(comment.createdAt)}</p>
                     </li>
                   ))}
                 </ul>

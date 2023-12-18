@@ -28,7 +28,6 @@ const ProductDetailPage = () => {
           credentials: "include",
         });
         response = await response.json();
-        console.log(response);
         if (response.success === true) {
           setProduct(response.product);
         } else {

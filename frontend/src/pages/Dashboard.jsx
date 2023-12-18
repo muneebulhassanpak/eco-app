@@ -107,7 +107,6 @@ const Dashboard = () => {
         credentials: "include",
       });
       response = await response.json();
-      console.log(response);
       if (response.success === true) {
         setEditTopic(response.post);
         setEditModal(true);
