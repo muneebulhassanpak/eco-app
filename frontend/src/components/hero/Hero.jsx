@@ -32,7 +32,7 @@ const HeroSection = () => {
             <Link to="/ecoshop">Explore Now</Link>
           </button>
           <button className="px-8 py-2 bg-white text-darkGreen rounded-md hover:bg-slate-200">
-            <Link to="/forum">Disuss</Link>
+            <Link to="/forum">Discuss</Link>
           </button>
         </div>
       </div>

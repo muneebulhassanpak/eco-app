@@ -17,7 +17,7 @@ const InputField = ({
             {text}
           </span>
           <select
-            name=""
+            name={text}
             id=""
             value={value}
             onChange={(e) => {

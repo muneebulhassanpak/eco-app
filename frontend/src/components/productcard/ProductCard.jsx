@@ -92,7 +92,7 @@ const ProductCard = ({
           </div>
 
           <div className="controls flex items-center justify-end p-2 gap-3">
-            <Link to={`/ecoshop/${id}`}>
+            <Link to={`/ecoshop/${id}`} class="visit-link">
               <LuSend />
             </Link>
             <MdModeEditOutline
@@ -133,7 +133,7 @@ const ProductCard = ({
   return (
     <>
       <Link
-        className="sm:w-1/2 md:w-[calc(33.3%-1rem)] border rounded-md mb-2 overflow-hidden shadow-md hover:shadow-xl"
+        className="sm:w-1/2 md:w-[calc(33.3%-1rem)] border rounded-md mb-2 overflow-hidden shadow-md hover:shadow-xl product-card"
         to={`/ecoshop/${id}`}
       >
         <div className="relative overflow-hidden h-28">

@@ -54,6 +54,7 @@ const Signup = ({ onClick }) => {
     console.log(dataObject);
     let response = await fetch(registerUrl, {
       method: "POST",
+      credentials: "include",
       body: JSON.stringify(dataObject),
       headers,
     });

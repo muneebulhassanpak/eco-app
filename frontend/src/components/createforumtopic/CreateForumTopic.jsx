@@ -23,7 +23,7 @@ const privacyValues = [
   { value: "private", label: "Private" },
 ];
 
-const CreateForumTopic = ({ onClick, mode }) => {
+const CreateForumTopic = ({ onClick, mode, sendBackNewTopic }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [privacy, setPrivacy] = useState("public");
@@ -67,17 +67,19 @@ const CreateForumTopic = ({ onClick, mode }) => {
     response.success == true &&
       successNotification("Successfully posted") &&
       dispatch(AddArticle(response.newTopic));
+    sendBackNewTopic(response.newTopic);
     response.success == false &&
       errorNotification(response.message || "something went wrong in posting");
     //Form resetting
     setTitle("");
     setDescription("");
     setFormIsValid(false);
+    onClick();
   };
 
   return (
     <>
-      <div className="relative p-3">
+      <div className="relative p-3 create-forum-topic">
         <h2 className="text-center font-play text-3xl font-semibold my-3 ">
           Post a Question
         </h2>

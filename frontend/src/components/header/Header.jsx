@@ -15,6 +15,7 @@ import { RxCross1 } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { Logout as LogoutAction } from "../../store/userSlice";
+import WeatherForecast from "../weather/WeatherForecast";
 import Cookies from "js-cookie";
 
 const Header = () => {
@@ -74,6 +75,7 @@ const Header = () => {
               <Link text="Forum" link="/forum" />
               <Link text="EcoShop" link="/ecoshop" />
               {isLoggedIn && <Link text="Dashboard" link="/dashboard/forum" />}
+              <WeatherForecast />
             </div>
 
             <div className="w-1/3 flex flex-col md:flex-row justify-end items-center gap-4">

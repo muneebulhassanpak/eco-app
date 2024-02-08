@@ -97,6 +97,7 @@ exports.editTopicController = async (req, res, next) => {
   const errors = validationResult(req);
   try {
     if (!errors.isEmpty()) {
+      console.log(errors);
       throw new CustomError(400, "Invalid inputs");
     }
     const { title, description, privacy } = req.body;
@@ -123,7 +124,7 @@ exports.editTopicController = async (req, res, next) => {
 
     res.status(200).json({ success: true, updatedTopic });
   } catch (error) {
-    return next(err);
+    return next(error);
   }
 };
 
@@ -167,7 +168,7 @@ exports.deleteTopicController = async (req, res, next) => {
       );
     }
   } catch (error) {
-    return next(err);
+    return next(error);
   }
 };
 

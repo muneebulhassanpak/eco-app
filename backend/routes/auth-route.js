@@ -25,7 +25,7 @@ router.post(
     body("role")
       .notEmpty()
       .withMessage("Role is required")
-      .isIn(["admin", "user"])
+      .isIn(["admin", "farmer"])
       .withMessage("Invalid role"),
     body("password")
       .notEmpty()

@@ -26,7 +26,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "/uploads")));
 app.use(
   cors({
-    origin: ["https://localhost:5173", "https://web.postman.co"],
+    origin: [
+      "https://localhost:5173",
+      "http://localhost:5173",
+      "https://web.postman.co",
+    ],
     methods: "GET, POST, PUT, DELETE, PATCH",
     credentials: true,
   })
@@ -62,7 +66,8 @@ app.use("/api/admin", adminRoutes);
 
 // Endpoint to get CSRF token
 app.get("/api/csrf-token", (req, res) => {
-  res.json({ csrfToken: req.csrfToken() });
+  console.log("Token asked");
+  return res.json({ csrfToken: req.csrfToken() });
 });
 
 // Test route

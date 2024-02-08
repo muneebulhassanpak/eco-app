@@ -17,7 +17,7 @@ const ForumCard = ({ id, cardTitle, cardDescription, time, type, privacy }) => {
     return (
       <Link
         to={`/forum/${id}`}
-        className="block sm:w-[calc(50%-1rem)] md:w-[calc(33%-1rem)] mb-1 rounded-md shadow-md hover:shadow-xl cursor-pointer p-3 border border-black"
+        className="block sm:w-[calc(50%-1rem)] md:w-[calc(33%-1rem)] mb-1 rounded-md shadow-md hover:shadow-xl cursor-pointer p-3 border border-black forum-card"
       >
         <h3 className="text-2xl text-center">{cardTitle}</h3>
         <p>{truncatedDescription}</p>
@@ -30,7 +30,7 @@ const ForumCard = ({ id, cardTitle, cardDescription, time, type, privacy }) => {
     return (
       <Link
         to={`/forum/${id}`}
-        className="block sm:w-[calc(48%-1rem)] md:w-[calc(32%-1rem)] mb-1 rounded-md shadow-md hover:shadow-xl cursor-pointer p-3 border border-black relative"
+        className="block sm:w-[calc(48%-1rem)] md:w-[calc(32%-1rem)] mb-1 rounded-md shadow-md hover:shadow-xl cursor-pointer p-3 border border-black relative forum-card"
       >
         <h3 className="text-2xl text-center">{cardTitle}</h3>
         <p>{truncatedDescription}</p>
@@ -46,7 +46,7 @@ const ForumCard = ({ id, cardTitle, cardDescription, time, type, privacy }) => {
     );
   }
   return (
-    <div className="relative">
+    <div className="relative forum-card">
       <h3 className="text-2xl text-center">{cardTitle}</h3>
       <p>{truncatedDescription}</p>
       <p>

@@ -17,6 +17,7 @@ import { headers, loginUrl } from "../../../utils/Urls";
 import { useNavigate } from "react-router-dom";
 
 import { useSelector } from "react-redux";
+import Cookies from "js-cookie"; // Import the Cookies library
 
 const Login = ({ onClick }) => {
   const [email, setEmail] = useState("");
@@ -71,6 +72,7 @@ const Login = ({ onClick }) => {
     setFormIsValid(false);
     //response handling
     response = await response.json();
+    console.log(response);
     response.success == true &&
       successNotification("Login successful") &&
       dispatch(loginAction(response.user)) &&

@@ -3,6 +3,7 @@ import userReducer from "./userSlice";
 import postReducer from "./postSlice";
 import articlesReducer from "./allarticles";
 import tokenReducer from "./csrfToken";
+import temperature from "./temperature";
 // import postsReducer from "./postsReducer";
 
 const store = configureStore({
@@ -11,6 +12,7 @@ const store = configureStore({
     post: postReducer,
     allArticles: articlesReducer,
     token: tokenReducer,
+    temperature: temperature,
   },
 });
 

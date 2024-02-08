@@ -5,8 +5,8 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   server: {
     https: {
-      key: "./key.pem",
-      cert: "./cert.pem",
+      key: "./ecoapp-privateKey.key",
+      cert: "./ecoapp.crt",
     },
   },
   plugins: [react()],

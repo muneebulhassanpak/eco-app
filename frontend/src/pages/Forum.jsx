@@ -19,6 +19,13 @@ const Forum = () => {
   const [topicModalStatus, setTopicModalStatus] = useState(false);
   const [data, setData] = useState([]);
 
+  //If  a new topic gets added we add it right here
+  const addNewTopic = (newTopic) => {
+    setData((prevTopics) => {
+      return [newTopic, ...prevTopics];
+    });
+  };
+
   const loading = useSelector((store) => store?.allArticles?.loading);
   const isLoggedIn = useSelector((store) => store?.user?.isLoggedIn);
   //Fetching headers for CSRF token mechanism
@@ -97,7 +104,10 @@ const Forum = () => {
       {topicModalStatus && (
         <Overlay onClick={closeModal}>
           <Modal>
-            <CreateForumTopic onClick={closeModal} />
+            <CreateForumTopic
+              onClick={closeModal}
+              sendBackNewTopic={addNewTopic}
+            />
           </Modal>
         </Overlay>
       )}

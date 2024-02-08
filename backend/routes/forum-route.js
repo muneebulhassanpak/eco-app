@@ -53,16 +53,18 @@ router.post(
       .withMessage("Title is required")
       .isLength({ min: 5 })
       .withMessage("Title must be at least 5 characters long")
-      .matches(/^[a-zA-Z0-9\s]+$/)
-      .withMessage("Title must contain only alphabets, numbers, and spaces"),
+      .matches("^[0-9a-zA-Z,?.! ]+$")
+      .withMessage(
+        "Title must contain only alphabets, numbers, and spaces,comma,period,spaces or exclamation marks"
+      ),
     body("description")
       .notEmpty()
       .withMessage("Description is required")
       .isLength({ min: 11 })
       .withMessage("Description must be at least 11 characters long")
-      .matches(/^[a-zA-Z0-9\s]+$/)
+      .matches("^[0-9a-zA-Z,?.! ]+$")
       .withMessage(
-        "Description must contain only alphabets, numbers, and spaces"
+        "Description must contain only alphabets, numbers, and spaces,comma,period,spaces or exclamation marks"
       ),
     body("privacy")
       .notEmpty()
@@ -77,21 +79,28 @@ router.patch(
   "/edit/:id",
   verify,
   [
+    param("id")
+      .notEmpty()
+      .withMessage("Topic ID is required")
+      .isMongoId()
+      .withMessage("Invalid Topic ID"),
     body("title")
       .notEmpty()
       .withMessage("Title is required")
       .isLength({ min: 2 })
       .withMessage("Title must be at least 2 characters long")
-      .matches(/^[a-zA-Z0-9\s]+$/)
-      .withMessage("Title must contain only alphabets, numbers, and spaces"),
+      .matches("^[0-9a-zA-Z,?.! ]+$")
+      .withMessage(
+        "Title must contain only alphabets, numbers, and spaces,comma,period,spaces or exclamation marks"
+      ),
     body("description")
       .notEmpty()
       .withMessage("Description is required")
       .isLength({ min: 10 })
       .withMessage("Description must be at least 10 characters long")
-      .matches(/^[a-zA-Z0-9\s]+$/)
+      .matches("^[0-9a-zA-Z,?.! ]+$")
       .withMessage(
-        "Description must contain only alphabets, numbers, and spaces"
+        "Description must contain only alphabets, numbers, and spaces,comma,period,spaces or exclamation marks"
       ),
     body("privacy")
       .notEmpty()
@@ -108,9 +117,9 @@ router.delete(
   [
     param("id")
       .notEmpty()
-      .withMessage("Product ID is required")
+      .withMessage("Topic ID is required")
       .isMongoId()
-      .withMessage("Invalid Product ID"),
+      .withMessage("Invalid Topic ID"),
   ],
   deleteTopicController
 );
@@ -120,17 +129,17 @@ router.post(
   [
     param("id")
       .notEmpty()
-      .withMessage("Product ID is required")
+      .withMessage("Comment ID is required")
       .isMongoId()
-      .withMessage("Invalid Product ID"),
+      .withMessage("Invalid Comment ID"),
     body("message")
       .notEmpty()
       .withMessage("Message is required")
       .isLength({ min: 2 })
-      .withMessage("Title must be at least 2 characters long")
-      .matches(/^[a-zA-Z0-9\s]+$/)
+      .withMessage("message must be at least 2 characters long")
+      .matches("^[0-9a-zA-Z,?.! ]+$")
       .withMessage(
-        "Description must contain only alphabets, numbers, and spaces"
+        "Message must contain only alphabets, numbers, and spaces,comma,period,spaces or exclamation marks"
       ),
   ],
   verify,
@@ -142,9 +151,13 @@ router.get(
   [
     param("query")
       .notEmpty()
-      .withMessage("Query is required")
-      .matches(/^[a-zA-Z0-9 ]+$/)
-      .withMessage("Invalid characters in the query"),
+      .withMessage("Query ID is required")
+      .isMongoId()
+      .withMessage("Invalid query ID")
+      .matches("^[a-zA-Z,?.!' ]+$")
+      .withMessage(
+        "Message must contain only alphabets, numbers, and spaces,comma,period,spaces or exclamation marks"
+      ),
   ],
   getResultsForQuery
 );

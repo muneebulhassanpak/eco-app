@@ -22,7 +22,7 @@ const ForumSearchBar = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto my-2">
+    <div className="max-w-md mx-auto my-2 forum-search-bar">
       <form
         className="flex items-center w-full"
         onSubmit={formSubmissionHandler}
@@ -43,7 +43,7 @@ const ForumSearchBar = () => {
         <div className="border border-black rounded-r-full ">
           <button
             type="submit"
-            className="p-[12px] focus:outline-none"
+            className="p-[12px] focus:outline-none search-button"
             aria-label="Search"
           >
             <IoSearchSharp />

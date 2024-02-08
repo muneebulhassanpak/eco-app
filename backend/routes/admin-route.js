@@ -39,8 +39,20 @@ router.post(
   "/createProduct",
   adminVerification,
   [
-    body("name").notEmpty().withMessage("Name is required"),
-    body("description").notEmpty().withMessage("Description is required"),
+    body("name")
+      .notEmpty()
+      .withMessage("Name is required")
+      .matches("^[0-9a-zA-Z,?.! ]+$")
+      .withMessage(
+        "Name must contain only alphabets, numbers, and spaces,comma,period,spaces or exclamation marks"
+      ),
+    body("description")
+      .notEmpty()
+      .withMessage("Description is required")
+      .matches("^[0-9a-zA-Z,?.! ]+$")
+      .withMessage(
+        "Description must contain only alphabets, numbers, and spaces,comma,period,spaces or exclamation marks"
+      ),
     body("image").notEmpty().withMessage("Image is required"),
     body("price")
       .notEmpty()

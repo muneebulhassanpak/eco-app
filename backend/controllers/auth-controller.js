@@ -12,6 +12,7 @@ exports.registrationController = async (req, res, next) => {
   const errors = validationResult(req);
   try {
     if (!errors.isEmpty()) {
+      console.log(errors);
       throw new CustomError(400, "Wrong inputs, validation failed");
     }
     const { fullname, email, role, password } = req.body;
@@ -60,6 +61,7 @@ exports.loginController = async (req, res, next) => {
     if (!errors.isEmpty()) {
       throw new CustomError(400, "Wrong inputs, validation failed");
     }
+    console.log("Hit");
     const { email, password } = req.body;
     const user = await User.findOne({ email: email });
     if (!user) {
